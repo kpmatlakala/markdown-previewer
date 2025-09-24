@@ -1,7 +1,7 @@
 // src/App.jsx
 import { useState } from 'react'
 import { marked } from 'marked'
-import { Button } from 'delightplus-ui'
+// import { Button } from 'delightplus-ui'
 
 marked.setOptions({
   breaks: true,
