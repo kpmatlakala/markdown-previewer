@@ -1,15 +1,18 @@
 // src/App.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { marked } from "marked";
-import { Button } from "delightplus-ui";
+import { Button, Textarea, useTheme } from "delightplus-ui";
 
-import { useTheme } from "./context/ThemeContext";
+
 
 marked.setOptions({
   breaks: true,
 });
 
 function App() {
+  const editorRef = useRef(null);
+  const previewRef = useRef(null);
+
   const { theme, toggleTheme } = useTheme();
   const [markdown, setMarkdown] = useState(() => {
     return (
@@ -18,8 +21,27 @@ function App() {
   });
 
   useEffect(() => {
-  localStorage.setItem("markdown", markdown);
-}, [markdown]);
+    localStorage.setItem("markdown", markdown);
+  }, [markdown]);
+
+  useEffect(() => {
+    const editor = editorRef.current;
+    const preview = previewRef.current;
+
+    if (!editor || !preview) return;
+
+    const handleScroll = () => {
+      const scrollRatio =
+        editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
+
+      preview.scrollTop =
+        scrollRatio * (preview.scrollHeight - preview.clientHeight);
+    };
+
+    editor.addEventListener("scroll", handleScroll);
+
+    return () => editor.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="w-screen min-h-screen py-10 px-4 bg-[var(--bg)] text-[var(--text)] transition-colors">
@@ -38,16 +60,18 @@ function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Markdown Input */}
-          <textarea
+          <Textarea
+            ref={editorRef}
             id="editor"
-            className="w-full h-[70vh] p-4 bg-[var(--bg)] border border-[var(--border)] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-[var(--border)]
- font-mono text-sm"
+            variant="outlined"
+            className="w-full h-[70vh] resize-none font-mono text-md"
             value={markdown}
             onChange={(e) => setMarkdown(e.target.value)}
           />
 
           {/* Markdown Preview */}
           <div
+            ref={previewRef}
             id="preview"
             className="w-full h-[70vh] overflow-y-auto p-4 border border-[var(--border)] bg-[var(--bg)] rounded-md prose prose-sm md:prose-base lg:prose-lg max-w-none"
             dangerouslySetInnerHTML={{ __html: marked(markdown) }}
