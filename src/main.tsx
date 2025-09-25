@@ -1,16 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
 // Import DeLightPlus UI styles
 // import 'delightplus-ui/styles.css';
-import 'delightplus-ui/dist/styles.css';
+import "delightplus-ui/dist/styles.css";
 
 // Import your own Tailwind styles
-import './index.css'
-import App from './App.tsx'
+import "./index.css";
+import App from "./App.tsx";
 
-createRoot(document.getElementById('root')!).render(
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </StrictMode>
+);
