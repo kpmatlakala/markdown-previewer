@@ -1,9 +1,7 @@
 // src/App.jsx
 import { useState, useEffect, useRef } from "react";
 import { marked } from "marked";
-import { Button, Textarea, useTheme } from "delightplus-ui";
-
-
+import { useTheme, Button, Card, CardContent, Textarea } from "delightplus-ui";
 
 marked.setOptions({
   breaks: true,
@@ -70,12 +68,14 @@ function App() {
           />
 
           {/* Markdown Preview */}
-          <div
-            ref={previewRef}
-            id="preview"
-            className="w-full h-[70vh] overflow-y-auto p-4 border border-[var(--border)] bg-[var(--bg)] rounded-md prose prose-sm md:prose-base lg:prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: marked(markdown) }}
-          />
+          <Card variant="muted" className="h-[70vh] overflow-hidden">
+            <CardContent
+              ref={previewRef}
+              id="preview"
+              className="h-full overflow-y-auto prose prose-sm md:prose-base lg:prose-lg max-w-none"
+              dangerouslySetInnerHTML={{ __html: marked(markdown) }}
+            />
+          </Card>
         </div>
       </div>
     </div>
