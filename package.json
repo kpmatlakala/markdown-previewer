@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "delightplus-ui": "^0.1.32",
+    "delightplus-ui": "^0.1.46",
+    "dompurify": "^3.2.7",
     "markdownlint": "^0.38.0",
     "markdownlint-rule-helpers": "^0.29.0",
     "marked": "^16.3.0",
